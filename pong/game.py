@@ -2,6 +2,7 @@ from .paddle import Paddle
 from .ball import Ball
 import pygame
 import random
+
 pygame.init()
 
 
@@ -21,6 +22,7 @@ class Game:
     Use the information returned from .loop() to determine when to end the game by calling
     .reset().
     """
+
     SCORE_FONT = pygame.font.SysFont("comicsans", 50)
     WHITE = (255, 255, 255)
     BLACK = (0, 0, 0)
@@ -30,10 +32,11 @@ class Game:
         self.window_width = window_width
         self.window_height = window_height
 
-        self.left_paddle = Paddle(
-            10, self.window_height // 2 - Paddle.HEIGHT // 2)
+        self.left_paddle = Paddle(10, self.window_height // 2 - Paddle.HEIGHT // 2)
         self.right_paddle = Paddle(
-            self.window_width - 10 - Paddle.WIDTH, self.window_height // 2 - Paddle.HEIGHT//2)
+            self.window_width - 10 - Paddle.WIDTH,
+            self.window_height // 2 - Paddle.HEIGHT // 2,
+        )
         self.ball = Ball(self.window_width // 2, self.window_height // 2)
 
         self.left_score = 0
@@ -43,27 +46,34 @@ class Game:
         self.window = window
 
     def _draw_score(self):
-        left_score_text = self.SCORE_FONT.render(
-            f"{self.left_score}", 1, self.WHITE)
-        right_score_text = self.SCORE_FONT.render(
-            f"{self.right_score}", 1, self.WHITE)
-        self.window.blit(left_score_text, (self.window_width //
-                                           4 - left_score_text.get_width()//2, 20))
-        self.window.blit(right_score_text, (self.window_width * (3/4) -
-                                            right_score_text.get_width()//2, 20))
+        left_score_text = self.SCORE_FONT.render(f"{self.left_score}", 1, self.WHITE)
+        right_score_text = self.SCORE_FONT.render(f"{self.right_score}", 1, self.WHITE)
+        self.window.blit(
+            left_score_text,
+            (self.window_width // 4 - left_score_text.get_width() // 2, 20),
+        )
+        self.window.blit(
+            right_score_text,
+            (self.window_width * (3 / 4) - right_score_text.get_width() // 2, 20),
+        )
 
     def _draw_hits(self):
         hits_text = self.SCORE_FONT.render(
-            f"{self.left_hits + self.right_hits}", 1, self.RED)
-        self.window.blit(hits_text, (self.window_width //
-                                     2 - hits_text.get_width()//2, 10))
+            f"{self.left_hits + self.right_hits}", 1, self.RED
+        )
+        self.window.blit(
+            hits_text, (self.window_width // 2 - hits_text.get_width() // 2, 10)
+        )
 
     def _draw_divider(self):
-        for i in range(10, self.window_height, self.window_height//20):
+        for i in range(10, self.window_height, self.window_height // 20):
             if i % 2 == 1:
                 continue
             pygame.draw.rect(
-                self.window, self.WHITE, (self.window_width//2 - 5, i, 10, self.window_height//20))
+                self.window,
+                self.WHITE,
+                (self.window_width // 2 - 5, i, 10, self.window_height // 20),
+            )
 
     def _handle_collision(self):
         ball = self.ball
@@ -118,9 +128,8 @@ class Game:
     def move_paddle(self, left=True, up=True):
         """
         Move the left or right paddle.
-
-        :returns: boolean indicating if paddle movement is valid. 
-                  Movement is invalid if it causes paddle to go 
+        :returns: boolean indicating if paddle movement is valid.
+                  Movement is invalid if it causes paddle to go
                   off the screen
         """
         if left:
@@ -141,8 +150,7 @@ class Game:
     def loop(self):
         """
         Executes a single game loop.
-
-        :returns: GameInformation instance stating score 
+        :returns: GameInformation instance stating score
                   and hits of each paddle.
         """
         self.ball.move()
@@ -156,7 +164,8 @@ class Game:
             self.left_score += 1
 
         game_info = GameInformation(
-            self.left_hits, self.right_hits, self.left_score, self.right_score)
+            self.left_hits, self.right_hits, self.left_score, self.right_score
+        )
 
         return game_info
 

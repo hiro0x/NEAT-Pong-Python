@@ -4,13 +4,13 @@ import random
 
 
 class Ball:
-    MAX_VEL = 5
+    MAX_VEL = 7
     RADIUS = 7
 
     def __init__(self, x, y):
         self.x = self.original_x = x
         self.y = self.original_y = y
-        
+
         angle = self._get_random_angle(-30, 30, [0])
         pos = 1 if random.random() < 0.5 else -1
 
